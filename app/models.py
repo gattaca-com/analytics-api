@@ -16,7 +16,9 @@ class Block(BaseModel):
     size: int | None
     extra_data: str | None
     builder: str | None
+    builder_name: str | None
     proposer: str | None
+    proposer_name: str | None
     transaction_fees: str | None
     burnt_fees: str | None
     internal_transfer_fees: str | None
