@@ -13,7 +13,7 @@ COLUMNS = (
     "b.base_fee_per_gas, b.extra_data, b.builder, "
     "b.proposer, lp.name AS proposer_name, "
     "b.transaction_fees, b.burnt_fees, b.internal_transfer_fees, "
-    "b.builder_payment, b.proposer_payment"
+    "b.builder_payment, b.proposer_payment "
     "FROM mined.block b "
     "LEFT JOIN label.address lp ON lp.address = b.proposer"
 )

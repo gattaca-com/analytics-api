@@ -13,10 +13,8 @@ class Block(BaseModel):
     gas_used: int | None
     gas_limit: int | None
     base_fee_per_gas: int | None
-    size: int | None
     extra_data: str | None
     builder: str | None
-    builder_name: str | None
     proposer: str | None
     proposer_name: str | None
     transaction_fees: str | None
@@ -24,8 +22,6 @@ class Block(BaseModel):
     internal_transfer_fees: str | None
     builder_payment: str | None
     proposer_payment: str | None
-    blob_count: int | None
-    injected_subsidy_fee: str | None
 
 
 class Transaction(BaseModel):
