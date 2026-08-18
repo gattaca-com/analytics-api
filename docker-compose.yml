@@ -1,0 +1,10 @@
+services:
+  analytics-api:
+    build: .
+    image: cont-reg.techbox.biz/analytics-api:latest
+    network_mode: host
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
