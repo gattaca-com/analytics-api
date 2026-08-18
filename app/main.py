@@ -15,10 +15,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Gattaca Analytics API",
-    description=(
-        "Read-only analytics API. Value fields are Wei strings; "
-        "hashes and addresses are 0x-hex."
-    ),
     version="0.1.0",
     lifespan=lifespan,
 )
