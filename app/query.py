@@ -1,12 +1,17 @@
 from typing import Any
 
+from fastapi import HTTPException
+
 from app.db import fetch
 from app.pagination import PageParams, Pagination
 from app.serializers import row_to_dict
 
 
 def hex_to_bytes(value: str) -> bytes:
-    return bytes.fromhex(value[2:] if value.startswith("0x") else value)
+    try:
+        return bytes.fromhex(value[2:] if value.startswith("0x") else value)
+    except ValueError:
+        raise HTTPException(422, f"invalid hex value: {value!r}")
 
 
 async def run_page(
