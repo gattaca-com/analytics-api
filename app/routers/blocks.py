@@ -10,13 +10,11 @@ router = APIRouter(prefix="/blocks", tags=["blocks"])
 
 COLUMNS = (
     "b.number, b.timestamp, b.slot_number, b.hash, b.gas_used, b.gas_limit, "
-    "b.base_fee_per_gas, b.size, b.extra_data, b.builder, "
-    "lb.name AS builder_name, b.proposer, lp.name AS proposer_name, "
+    "b.base_fee_per_gas, b.extra_data, b.builder, "
+    "b.proposer, lp.name AS proposer_name, "
     "b.transaction_fees, b.burnt_fees, b.internal_transfer_fees, "
-    "b.builder_payment, b.proposer_payment, b.blob_count, "
-    "b.injected_subsidy_fee "
+    "b.builder_payment, b.proposer_payment"
     "FROM mined.block b "
-    "LEFT JOIN label.address lb ON lb.address = b.builder "
     "LEFT JOIN label.address lp ON lp.address = b.proposer"
 )
 
