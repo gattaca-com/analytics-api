@@ -8,8 +8,9 @@ def _convert(value: Any) -> Any:
     if isinstance(value, (bytes, bytearray, memoryview)):
         return "0x" + bytes(value).hex()
     if isinstance(value, Decimal):
-        # numeric(78,0) Wei values overflow float64 — serialize as string
-        return str(value)
+        # numeric Wei values overflow float64 — serialize as plain string
+        # (format 'f' avoids scientific notation like 1.8E+17)
+        return format(value, "f")
     return value
 
 

@@ -29,16 +29,20 @@ class Pagination(BaseModel):
     has_more: bool
 
 
-def validate_range(start: datetime | None, end: datetime | None) -> None:
+def validate_range(
+    start: datetime | None,
+    end: datetime | None,
+    max_seconds: int | None = None,
+) -> None:
     if (start is None) != (end is None):
         raise HTTPException(422, "start and end must be provided together")
     if start is not None and end is not None:
         if end <= start:
             raise HTTPException(422, "end must be after start")
+        cap = max_seconds if max_seconds is not None else settings.max_range_seconds
         width = (end - start).total_seconds()
-        if width > settings.max_range_seconds:
+        if width > cap:
             raise HTTPException(
                 422,
-                f"time range too wide: {width:.0f}s > "
-                f"max {settings.max_range_seconds}s",
+                f"time range too wide: {width:.0f}s > max {cap}s",
             )

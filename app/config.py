@@ -16,7 +16,13 @@ class Settings(BaseSettings):
     max_limit: int = 1000
     default_limit: int = 100
     max_range_seconds: int = 21600
+    # relay.bid_submission is a very large hypertable — cap ranges tighter
+    bid_submission_max_range_seconds: int = 3600
     statement_timeout_seconds: int = 15
+
+    # Per-client-IP rate limits (requests/minute). 0 disables.
+    rate_limit_per_minute: int = 120
+    rate_limit_heavy_per_minute: int = 20
 
 
 settings = Settings()

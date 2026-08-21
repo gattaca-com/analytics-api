@@ -59,6 +59,88 @@ class BidAdjustment(BaseModel):
     submitted_value: str | None
 
 
+class WinningBid(BaseModel):
+    slot_number: int
+    winning_timestamp: datetime
+    winning_relay_id: int
+    relay: str | None
+    block_hash: str | None
+    winning_bid_value: str | None
+    other_relay_ids: list[int] | None
+    block_uuid: str | None
+    is_passthrough: bool | None
+
+
+class DeliveredPayload(BaseModel):
+    relay_id: int
+    relay: str | None
+    slot_number: int
+    block_number: int
+    block_hash: str
+    builder_pubkey_id: int
+    builder_pubkey: str | None
+    builder_extra_data: str | None
+    proposer_pubkey: str
+    proposer_fee_recipient: str
+    gas_limit: int
+    gas_used: int
+    value: str
+
+
+class BidSubmission(BaseModel):
+    relay_id: int
+    relay: str | None
+    slot_number: int
+    block_number: int
+    block_hash: str
+    builder_pubkey_id: int
+    builder_pubkey: str | None
+    builder_extra_data: str | None
+    value: str
+    timestamp: datetime
+
+
+class SubmittedBlock(BaseModel):
+    uuid: str
+    builder_id: int | None
+    builder: str | None
+    strategy_id: int | None
+    strategy: str | None
+    slot_number: int | None
+    builder_payment: str | None
+    raw_builder_payment: str | None
+    gas_used: int | None
+    on_build_start: datetime
+    on_build_finish: datetime
+    submission_ts: datetime | None
+    orders_count: int | None
+    bundles_count: int | None
+    eob_bundles: int | None
+    blobs_count: int | None
+    sim_time: int | None
+    block_type_id: int | None
+    block_type: str | None
+    removed_ts: datetime | None
+    removed_reason_id: int | None
+    removed_reason: str | None
+    removed_triggering_block: str | None
+    eob_value: str | None
+    cex_dex_value: str | None
+    best_order_value: str | None
+
+
+class TransactionSource(BaseModel):
+    timestamp: datetime
+    hash: str | None
+    entry_point_id: int | None
+    entry_point: str | None
+    source_id: int | None
+    source: str | None
+    region_id: int | None
+    region: str | None
+    bundle_hash: str | None
+
+
 class BlockPage(BaseModel):
     data: list[Block]
     pagination: Pagination
@@ -71,4 +153,29 @@ class TransactionPage(BaseModel):
 
 class BidAdjustmentPage(BaseModel):
     data: list[BidAdjustment]
+    pagination: Pagination
+
+
+class WinningBidPage(BaseModel):
+    data: list[WinningBid]
+    pagination: Pagination
+
+
+class DeliveredPayloadPage(BaseModel):
+    data: list[DeliveredPayload]
+    pagination: Pagination
+
+
+class BidSubmissionPage(BaseModel):
+    data: list[BidSubmission]
+    pagination: Pagination
+
+
+class SubmittedBlockPage(BaseModel):
+    data: list[SubmittedBlock]
+    pagination: Pagination
+
+
+class TransactionSourcePage(BaseModel):
+    data: list[TransactionSource]
     pagination: Pagination

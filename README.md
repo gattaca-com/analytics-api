@@ -1,8 +1,8 @@
 # analytics-api
 
-Read-only FastAPI over the Gattaca `ethereum` warehouse. Exposes three
-resources: **mined blocks**, **mined transactions**, and **relay bid
-adjustments**.
+Read-only FastAPI over the Gattaca `ethereum` warehouse. Exposes mined
+blocks, mined transactions, relay bid adjustments / winning bids / delivered
+payloads, Titan builder submitted blocks, and orderflow transaction sources.
 
 Interactive docs (OpenAPI/Swagger) are auto-generated:
 
@@ -28,6 +28,10 @@ Interactive docs (OpenAPI/Swagger) are auto-generated:
 | GET | `/blocks` | `slot`, `block`, `hash`, `start`+`end` | `timestamp` |
 | GET | `/transactions` | `hash`, `block`, `start`+`end` | `timestamp` |
 | GET | `/bid-adjustments` | `slot`, `block`, `hash`, `start`+`end` | `submitted_received_at` |
+| GET | `/winning-bids` | `slot`, `hash`, `start`+`end` | `winning_timestamp` |
+| GET | `/delivered-payloads` | `slot`, `block`, `hash` (no range — no timestamp column) | — |
+| GET | `/submitted-blocks` | `slot`, `uuid`, `start`+`end` | `submission_ts` |
+| GET | `/transaction-sources` | `hash`, `bundle`, `start`+`end` | `timestamp` |
 | GET | `/health` | — | — |
 
 ### Pagination
@@ -41,6 +45,14 @@ Responses are enveloped:
   "pagination": { "limit": 100, "offset": 0, "count": 100, "has_more": true }
 }
 ```
+
+### Rate limits
+
+Requests are rate-limited per client IP: `RATE_LIMIT_PER_MINUTE` (default
+120/min). On 429 the response carries a `Retry-After` header —
+clients (including coding agents) should honour it and back off. Successful
+responses include `X-RateLimit-Limit` / `X-RateLimit-Remaining`. Set a limit
+to `0` to disable it.
 
 ### Examples
 
@@ -59,7 +71,7 @@ timeout).
 ## Database access
 
 The API connects as a dedicated read-only role with the minimum grants in
-`sql/grants.sql` (SELECT on the three source tables plus two `label` lookup
+`sql/grants.sql` (SELECT on the source tables plus the `label` lookup
 tables). No write access, no `ALTER DEFAULT PRIVILEGES`.
 
 ## Run
